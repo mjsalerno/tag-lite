@@ -2,7 +2,7 @@
 var socket = io.connect(document.URL);
 
 /* Handle search results */
-socket.on('search', function (data) {
+socket.on('news', function (data) {
 	console.log(data);
 });
 
@@ -83,15 +83,15 @@ $("#addfiles").click(function(){
 
 $("#addtags").click(function() {
 	var tags = $("#input").val().split(' ');
-	api.search(tags);
+	api.add_tag_names(tags);
 });
 
 $("#edittagname").click(function() {
 	var attrs = $("#input").val().split(' ');
-	api.search(attrs[0], attrs[1]);
+	api.edit_tag_name(attrs[0], attrs[1]);
 });
 
 $("#deletetag").click(function() {
 	var tags = $("#input").val().split(' ');
-	api.search(tags);
+	api.delete_tag_names(tags);
 });

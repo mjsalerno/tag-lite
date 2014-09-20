@@ -26,12 +26,7 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-backend.setupExpress(io);
-
-/* Hello, World socket connection */
+/* Setup socket connection */
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+	backend.setupExpress(socket);
 });

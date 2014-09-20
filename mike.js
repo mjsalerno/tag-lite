@@ -19,9 +19,9 @@ function findFilesWithExtention(dir, extentions) {
         for (var j = 0; j < extentions.length; j++) {
             if (S(paths[i]).endsWith(S(dir.concat(extentions[j])))) {
                 lst.push(paths[i]);
-            };
-        };
-    };
+            }
+        }
+    }
 
     return lst;
 }
@@ -50,19 +50,19 @@ function setupExpress(io) {
 
     io.on('edit-tag-name', function(socket){
         var json = {};
-        var orig = socket['original'];
-        var modi = socket['modified'];
+        var orig = socket.original;
+        var modi = socket.modified;
         var rtn = false;
 
         rtn = db.renameTag(orig, modi);
 
-        json['success'] = rtn;
+        json.success = rtn;
         socket.emit(rtn);
     });
 
     io.on('delete-tag-names', function(socket){
         var json = {};
-        var lst = socket['tagnames'];
+        var lst = socket.tagnames;
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
@@ -71,15 +71,15 @@ function setupExpress(io) {
             if(!rtn) {
                 break;
             }
-        };
+        }
 
-        json['success'] = rtn;
+        json.success = rtn;
         socket.emit(rtn);
     });
 
     io.on('untrack-dirs', function(socket){
         var json = {};
-        var lst = socket['directories'];
+        var lst = socket.directories;
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
@@ -87,9 +87,9 @@ function setupExpress(io) {
             if(!rtn) {
                 break;
             }
-        };
+        }
 
-        json['success'] = rtn;
+        json.success = rtn;
         socket.emit(rtn);
     });
 
@@ -116,4 +116,4 @@ if (isServer) {
     http.listen(3000, function(){
         console.log('listening on *:3000');
     });
-};
+}
