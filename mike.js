@@ -49,7 +49,15 @@ function setupExpress(io) {
     });
 
     io.on('edit-tag-name', function(socket){
-        console.log('socket: ' + socket);
+        var json = {};
+        var orig = socket['original'];
+        var modi = socket['modified'];
+        var rtn = false;
+
+        rtn = db.renameTag(orig, modi);
+
+        json['success'] = rtn;
+        socket.emit(rtn);
     });
 
     io.on('delete-tag-names', function(socket){
