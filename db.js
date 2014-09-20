@@ -1,55 +1,67 @@
 // database init
-
+var fs = require('fs');
 var sqlite3 = require('sqlite3').verbose();
-var nodb = false;
+var db;
 
-function open (dbpath) {
-	var db = new sqlite3.Database('taglite.db', 
-	sqlite3.OPEN_READWRITE,
-	function(err){
-		if(err == null){
-			// db exits
-			console.log("Database opened!");
-		}
-		else{
-			nodb = true;
-			console.log("Database not found!");
-			// must create db
-			// db = new sqlite3.Database('taglite.db');
-		}
-	});
-	if(nodb){
-		db = new sqlite3.Database('taglite.db');
-		console.log("Database created!");
-	}
+// opens the database at dbpath, or creates if it doesn’t exist
+function open(dbpath) {
+  // XXX: check if dbpath exists
+  db = new sqlite3.Database(dbpath);
+  //initdb();
+  console.log("Database opened!");
+
+  // we want foreign key constraints!
+  db.run('PRAGMA foreign_keys = ON;');
+}
+exports.open = open;
+
+function initdb(){
+  // XXX: initdb.sql drops tables
+  fs.readFile('initdb.sql', 'utf8', function (err, sql) {
+    if (err) {
+      throw err;
+    }
+    else {
+      console.log(sql);
+      // XXX: careful, sql prior to this callback are voided?
+      db.exec(sql);
+    }
+  });
+
 }
 
-console.log(db);
+// add file to db
+function addFile(path) {
+  db.run("INSERT INTO paths VALUES (?)", path);
+}
+exports.addFile = addFile;
 
-db.serialize(function () {
-	//db.each("SELECT * FROM tag", function(err, row) {
-		//console.log(row);
-		//console.log(row.id, row.path, row.pos);
-		//console.log(row.id + '\n' + row.path + '\n' + row.pos);
-	//});
-})
+// remove all occurrences of path from the db (can remove multiple files)
+// return: true if removed, false if none found
+function removePath(path){
+  db.run("DELETE FROM paths WHERE path LIKE (?)", path+'%');
+}
+exports.removePath = removePath;
+
+// remove all occurrences of tagname from the db
+function removeTagname() {
+  // XXX
+}
+exports.removeTagname = removeTagname;
+
 
 
 /**
-
-CREATE TABLE tagnames (id integer PRIMARY KEY, name varchar(80));
-CREATE TABLE paths (id integer PRIMARY KEY, path  varchar(240));
-CREATE TABLE tags (
-id integer,
-pathid integer,
-pos varchar(100),
-caption TEXT,
-PRIMARY KEY (id, pathid, pos),
-FOREIGN KEY (id) REFERENCES tagnames(id) ON DELETE CASCADE,
-FOREIGN KEY (pathid) REFERENCES paths(id) ON DELETE CASCADE
-);
-INSERT INTO tagnames VALUES (1, "Paul");
-INSERT INTO paths VALUES (5, "/path/to/file/here.png");
-INSERT INTO tags VALUES (1, 5, "{point:[40, 60], dx:10, dy:25}", "Fun day with Shane and Sherry!");
-
+open('taglite.db');
+console.log(db);
+console.log('Removing path: /path/to/');
+removePath('/path/to/');
 **/
+
+//db.serialize(function () {
+  //db.each("SELECT * FROM tag", function(err, row) {
+    //console.log(row);
+    //console.log(row.id, row.path, row.pos);
+    //console.log(row.id + '\n' + row.path + '\n' + row.pos);
+  //});
+//});
