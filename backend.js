@@ -57,7 +57,7 @@ function setupExpress(io) {
         rtn = db.renameTag(orig, modi);
 
         json.success = rtn;
-        socket.emit(rtn);
+        socket.emit(json);
     });
 
     io.on('delete-tag-names', function(socket){
@@ -74,7 +74,7 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(rtn);
+        socket.emit(json);
     });
 
     io.on('untrack-dirs', function(socket){
@@ -90,7 +90,7 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(rtn);
+        socket.emit(json);
     });
 
     io.on('untrack-files', function(socket){

@@ -15,7 +15,7 @@ function open(dbpath) {
 }
 exports.open = open;
 
-function initdb(){
+function initdb() {
   // XXX: initdb.sql drops tables
   fs.readFile('initdb.sql', 'utf8', function (err, sql) {
     if (err) {
@@ -32,31 +32,69 @@ function initdb(){
 
 // add file to db
 function addFile(path) {
-  db.run("INSERT INTO paths VALUES (?)", path);
+  db.run("INSERT INTO paths VALUES (?)", path, function (err) {
+    if (err !== null) {
+      console.log(err);
+    }
+    else {
+      console.log("INSERT: "+this.lastID);
+    }
+  });
 }
 exports.addFile = addFile;
 
 // remove all occurrences of path from the db (can remove multiple files)
-// return: true if removed, false if none found
-function removePath(path){
-  db.run("DELETE FROM paths WHERE path LIKE (?)", path+'%');
+// return: true if removed, false if none found or error
+function removePath(path) {
+  db.run("DELETE FROM paths WHERE path LIKE (?)", path+'%', function (err) {
+    if (err !== null) {
+      console.log(err);
+    }
+    else {
+      console.log("DELETE: "+this.changes);
+    }
+  });
 }
 exports.removePath = removePath;
 
+// add tagname 
+function addTagnames(tagname) {
+  db.run("INSERT INTO tagnames VALUES (null,(?))", tagname, function (err) {
+    if (err !== null) {
+      console.log(err);
+    }
+    else {
+      console.log("INSERT: "+this.changes);
+    }
+  });
+}
+exports.addTagnames = addTagnames;
+
 // remove all occurrences of tagname from the db
-function removeTagname() {
-  // XXX
+function removeTagname(tagname) {
+  db.run("DELETE FROM tagnames WHERE name LIKE (?)", tagname, function (err) {
+    if (err !== null) {
+      console.log(err);
+    }
+    else {
+      console.log("DELETE: "+this.changes);
+    }
+  });
 }
 exports.removeTagname = removeTagname;
 
-
-
-/**
-open('taglite.db');
-console.log(db);
-console.log('Removing path: /path/to/');
-removePath('/path/to/');
-**/
+// rename orig to modified
+function renameTag(orig, modified) {
+  db.run("UPDATE tagnames SET name=(?) WHERE name LIKE (?)", modified, orig, function (err) {
+    if (err !== null) {
+      console.log(err);
+    }
+    else {
+      console.log("UPDATE: "+this.changes);
+    }
+  });
+}
+exports.renameTag = renameTag;
 
 //db.serialize(function () {
   //db.each("SELECT * FROM tag", function(err, row) {
