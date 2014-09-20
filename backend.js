@@ -84,9 +84,7 @@ function setupExpress(io) {
         for (var i = 0; i < lst.length; i++) {
             rtn = vardb.removePath(lst[i]);
             db.removeTagname(lst[i]);
-            if(!rtn) {
-                break;
-            }
+            if(!rtn) break;
         }
 
         json.success = rtn;
@@ -100,9 +98,7 @@ function setupExpress(io) {
 
         for (var i = 0; i < lst.length; i++) {
             rtn = db.removePath(lst[i]);
-            if(!rtn) {
-                break;
-            }
+            if(!rtn) break;
         }
 
         json.success = rtn;
