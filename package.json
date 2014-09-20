@@ -10,5 +10,10 @@
         "fs": "0.0.2",
         "walk-sync": "0.1.2",
         "string": "2.0.1"
+	},
+
+	"repository": {
+  		"type": "git",
+  		"url": "git@github.com:mjsalerno/tag-light.git"
 	}
 }
