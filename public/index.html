@@ -4,18 +4,131 @@
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>tag-lite</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/client.css" />
-	</head>
-	<body>
-		Hello, World!
+		<link rel="stylesheet" href="css/lightbox.css" />
+		<title>tag-lite</title>
 		<!-- Socket.io for websocket communication -->
 		<script src="/socket.io/socket.io.js"></script>
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     	<!-- Include all compiled plugins (below), or include individual files as needed -->
     	<script src="js/bootstrap.min.js"></script>
+    	<!-- Lightbox -->
+    	<script src="js/lightbox.min.js"></script>
     	<!-- Application JS -->
     	<script type="text/javascript" src="js/client.js"></script>
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	      <div class="container-fluid">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#">tag-lite</a>
+	        </div>
+	        <div class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav navbar-right">
+	            <li><a href="#">Dashboard</a></li>
+	            <li><a href="#">Settings</a></li>
+	            <li><a href="#">Help</a></li>
+	          </ul>
+	          <form class="navbar-form navbar-right">
+	            <input type="text" class="form-control" placeholder="Search...">
+	          </form>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="container-fluid">
+	      <div class="row">
+	        <div class="col-sm-3 col-md-2 sidebar">
+	          <ul class="nav nav-sidebar">
+	            <li class="active"><a href="#">Overview</a></li>
+	          </ul>
+	          <ul class="nav nav-sidebar">
+	          	<li><a href="#">Collection1</a></li>
+	          	<li>
+	          		<ul>
+		          		<li><a href="#">subdir1</a></li>
+		          		<li><a href="#">subdir2</a></li>
+		          	</ul>
+	          	</li>
+	          </ul>
+	          <ul class="nav nav-sidebar">
+	            <li><a href="#">Collection2</a></li>
+	          </ul>
+	          <ul class="nav nav-sidebar">
+	            <li><a href="#">Collection3</a></li>
+	          </ul>
+	        </div>
+	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+	          <h1 class="page-header">Dashboard</h1>
+	          <!-- Row 1 -->
+	          <div class="row placeholders" id="images">
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	            	<a href="img/1-2014-09-17.jpg" data-lightbox="wics stonybrook">
+	            		<img src="img/1-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	            	</a>
+	              	<h4>wics stonybrook</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <a href="img/2-2014-09-17.jpg" data-lightbox="wics stonybrook">
+	            		<img src="img/2-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	            	</a>
+	               <h4>wics stonybrook</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <img src="img/3-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	               <h4>Sherry Shane</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <img src="img/4-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	               <h4>Sherry Shane</h4>
+	            </div>
+	          </div>
+	          <!-- Row 2 -->
+	          <div class="row placeholders" id="images">
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	              <img src="img/5-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	              <h4>Sherry Shane</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <img src="img/6-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	               <h4>Sherry Shane</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <img src="img/7-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	               <h4>Sherry Shane</h4>
+	            </div>
+	            <div class="col-xs-6 col-sm-3 placeholder">
+	               <img src="img/8-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
+	               <h4>Sherry Shane Paul</h4>
+	            </div>
+	          </div>
+
+	          	 <h1 class="sub-header">Test Buttons</h1>
+				<div class="btn-toolbar" role="toolbar">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default btn-lg" id="search">search</button>
+						<button type="button" class="btn btn-default btn-lg" id="adddirs">add directories</button>
+						<button type="button" class="btn btn-default btn-lg" id="untrackdirs">untrack directories</button>
+						<button type="button" class="btn btn-default btn-lg" id="untrackfiles">untrack files</button>
+						<button type="button" class="btn btn-default btn-lg" id="updatefile">update file</button>
+						<button type="button" class="btn btn-default btn-lg" id="addfiles">add files</button>
+						<button type="button" class="btn btn-default btn-lg" id="addtags">add tag names</button>
+						<button type="button" class="btn btn-default btn-lg" id="edittagname">edit tag name</button>
+						<button type="button" class="btn btn-default btn-lg" id="deletetags">delete tag names</button>
+					</div>
+				</div>
+				<br><br>
+				<textarea id="input" rows="4" cols="50">text in here yo</textarea>
+	        </div>
+	      </div>
+	    </div>
 	</body>
 </html>
