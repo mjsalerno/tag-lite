@@ -13,12 +13,8 @@ Facebook like image tagging without storing on the cloud. Local node server runn
     * `npm install -g bower`
 3. Install dependencies
 	* `npm install`
-4. Install polymer
-    * `cd public`
-    * `bower init`
-    * `bower install --save Polymer/polymer` 
-5. Configure settings by editing config.js
-6. Run the server and navigate to http://localhost:port
+4. Configure settings by editing config.js
+5. Run the server and navigate to http://localhost:port
 	* `sudo node server.js`
 
 ## Credits
