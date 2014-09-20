@@ -2,7 +2,7 @@ var express = require("express");
 var path = require('path');
 var sql = require("sqlite3");
 var fs = require("fs");
-var backend = require("./mike");
+var backend = require("./backend");
 
 /* Config imports */
 var config = require('./config');
