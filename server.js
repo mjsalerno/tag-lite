@@ -7,8 +7,8 @@ var fs = require("fs");
 var config = require('./config');
 
 /* Create the web app */
-var app = express(), 
-	server = require('http').createServer(app), 
+var app = express(),
+	server = require('http').createServer(app),
 	io = require('socket.io').listen(server);
 
 /* Set the directory where static content lives (aka root directory) */
