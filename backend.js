@@ -83,7 +83,7 @@ function setupExpress(io) {
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
-            rtn = vardb.removePath(lst[i]);
+            rtn = db.removePath(lst[i]);
             if(!rtn) {
                 break;
             }
