@@ -8,5 +8,9 @@
 		"sqlite3": "2.2.x",
         "sshfs-node": "0.0.7",
         "fs": "0.0.2"
+	},
+	"repository": {
+  		"type": "git",
+  		"url": "git@github.com:mjsalerno/tag-light.git"
 	}
 }
