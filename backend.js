@@ -41,7 +41,23 @@ function setupExpress(io) {
     });
 
     io.on('add-files', function(socket){
-        console.log('socket: ' + socket);
+        var files = socket.files;
+        var tags  = socket.tagnames;
+        var json = {};
+        var rtn = false;
+
+        for(var file in files) {
+            rtn = db.addFile(file);
+            if(!rtn) break;
+
+            for(var tag in tags) {
+                rtn = db.addTagToFile(file, tag);
+                if(!rtn) break;
+            }
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('add-tag-names', function(socket){
