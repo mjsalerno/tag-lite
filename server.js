@@ -2,6 +2,7 @@ var express = require("express");
 var path = require('path');
 var sql = require("sqlite3");
 var fs = require("fs");
+var backend = require("./mike");
 
 /* Config imports */
 var config = require('./config');
@@ -24,6 +25,8 @@ console.log('http://localhost:' + config.port);
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
+
+backend.setupExpress(io);
 
 /* Hello, World socket connection */
 io.on('connection', function (socket) {

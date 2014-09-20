@@ -36,7 +36,7 @@ function Calls() {
 	};
 
 	this.add_tag_names = function(tags) {
-		socket.emit('add-tag-names', {'tagnames': tags});	
+		socket.emit('add-tag-names', {'tagnames': tags});
 	};
 
 	this.edit_tag_name = function(original_tag, new_tag) {

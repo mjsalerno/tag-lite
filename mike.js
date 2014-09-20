@@ -8,7 +8,7 @@ var express  = require("express");
 var walkSync = require('walk-sync');
 
 var path = '.';
-var isServer = true;
+var isServer = false;
 
 var paths = walkSync(path);
 
@@ -28,9 +28,9 @@ function findFilesWithExtention(dir, extentions) {
 
 function setupExpress(io) {
 
-    io.get('/', function(req, res){
-        res.send(findFilesWithExtention('.', config.extentions));
-    });
+    // io.get('/', function(req, res){
+    //     res.send(findFilesWithExtention('.', config.extentions));
+    // });
 
     io.on('search', function(socket){
         console.log('socket: ' + socket);
@@ -101,6 +101,7 @@ function setupExpress(io) {
         console.log('socket: ' + socket);
     });
 }
+exports.setupExpress = setupExpress;
 
 db.open(config.dbname);
 
