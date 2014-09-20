@@ -19,5 +19,3 @@ Facebook like image tagging without storing on the cloud. Local node server runn
 
 ## Credits
 Things Mike, Paul, and Scott did at the Unhackathon. (Shane reneged)
-
-
