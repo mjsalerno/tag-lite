@@ -7,7 +7,7 @@ socket.on('search', function (data) {
 });
 
 /* All calls made to server are contained in this object */
-var api = function calls() {
+function Calls() {
 	this.search = function(tags) {
 		socket.emit('search', {'tagnames': tags});
 	};
@@ -46,7 +46,10 @@ var api = function calls() {
 	this.delete_tag_names = function(tags) {
 		socket.emit('delete-tag-names', {'tagnames': tags});
 	};
-};
+}
+
+/* Construct an instance of the object */
+var api = new Calls();
 
 $("#search").click(function() {
 	var tags = $("#input").val().split(' ');
