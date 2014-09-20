@@ -10,5 +10,8 @@ config.root = process.env.ROOT || 'public';
 /* The extentions to look for */
 config.extentions = ['png', 'jpg'];
 
+/* DB name */
+config.dbname = 'database.db';
+
 /* Make this variable public to files that import it */
 module.exports = config;
