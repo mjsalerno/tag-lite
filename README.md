@@ -6,7 +6,7 @@ Facebook like image tagging without storing on the cloud. Local node server runn
 ## Installation
 
 1. Clone this repository
-	* `git clone git@github.com:mjsalerno/Unhackathon.git`
+	* `git clone git@github.com:mjsalerno/tag-light.git`
 2. Install nodejs, npm, and sqlite3
 	* `sudo apt-get install nodejs`
 	* `sudo apt-get install npm`
