@@ -78,7 +78,19 @@ function setupExpress(io) {
     });
 
     io.on('untrack-dirs', function(socket){
-        console.log('socket: ' + socket);
+        var json = {};
+        var lst = socket['directories'];
+        var rtn = false;
+
+        for (var i = 0; i < lst.length; i++) {
+            rtn = vardb.removePath(lst[i]);
+            if(!rtn) {
+                break;
+            }
+        };
+
+        json['success'] = rtn;
+        socket.emit(rtn);
     });
 
     io.on('untrack-files', function(socket){
