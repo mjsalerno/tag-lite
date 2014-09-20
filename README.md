@@ -7,10 +7,9 @@ Facebook like image tagging without storing on the cloud. Local node server runn
 
 1. Clone this repository
 	* `git clone git@github.com:mjsalerno/Unhackathon.git`
-2. Install nodejs, npm, bower, and sqlite3
+2. Install nodejs, npm, and sqlite3
 	* `sudo apt-get install nodejs`
 	* `sudo apt-get install npm`
-    * `npm install -g bower`
     * `npm install -g sqlite3`
 3. Install dependencies
 	* `npm install`
