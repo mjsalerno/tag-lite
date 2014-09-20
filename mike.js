@@ -61,6 +61,20 @@ function setupExpress(io) {
     });
 
     io.on('delete-tag-names', function(socket){
+        var json = {};
+        var lst = socket['tagnames'];
+        var rtn = false;
+
+        for (var i = 0; i < lst.length; i++) {
+            rtn = vardb.removePath(lst[i]);
+            db.removeTagname(lst[i]);
+            if(!rtn) {
+                break;
+            }
+        };
+
+        json['success'] = rtn;
+        socket.emit(rtn);
     });
 
     io.on('untrack-dirs', function(socket){
