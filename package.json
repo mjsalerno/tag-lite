@@ -1,0 +1,10 @@
+{
+	"name": "tag lite",
+	"description": "Localized file tagging.",
+	"version": "0.0.1",
+	"dependencies" : {
+		"express": "4.x",
+		"socket.io": "1.x.x",
+		"sqlite3": "2.2.x"
+	}
+}
