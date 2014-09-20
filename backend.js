@@ -110,7 +110,17 @@ function setupExpress(io) {
     });
 
     io.on('untrack-files', function(socket){
-        console.log('socket: ' + socket);
+        var json = {};
+        var lst = socket.files;
+        var rtn = false;
+
+        for (var i = 0; i < lst.length; i++) {
+            rtn = db.removePath(lst[i]);
+            if(!rtn) break;
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('update-file', function(socket){
