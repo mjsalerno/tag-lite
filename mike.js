@@ -1,12 +1,14 @@
 var fs       = require("fs");
-var S        = require('string');
 var path     = require('path');
+var S        = require('string');
+var db       = require('./db.js');
 var sql      = require("sqlite3");
 var config   = require('./config');
 var express  = require("express");
 var walkSync = require('walk-sync');
 
 var path = '.';
+var isServer = true;
 
 var paths = walkSync(path);
 
