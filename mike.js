@@ -1,7 +1,7 @@
 var fs       = require("fs");
 var path     = require('path');
+var db       = require('./db');
 var S        = require('string');
-var db       = require('./db.js');
 var sql      = require("sqlite3");
 var config   = require('./config');
 var express  = require("express");
@@ -44,7 +44,7 @@ function setupExpress(io) {
         console.log('socket: ' + socket);
     });
 
-    io.on('add-tag-name', function(socket){
+    io.on('add-tag-names', function(socket){
         console.log('socket: ' + socket);
     });
 
@@ -52,8 +52,7 @@ function setupExpress(io) {
         console.log('socket: ' + socket);
     });
 
-    io.on('delete-tag-name', function(socket){
-        console.log('socket: ' + socket);
+    io.on('delete-tag-names', function(socket){
     });
 
     io.on('untrack-dirs', function(socket){
@@ -68,6 +67,9 @@ function setupExpress(io) {
         console.log('socket: ' + socket);
     });
 }
+
+db.open(config.dbname);
+
 
 if (isServer) {
 
