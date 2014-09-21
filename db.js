@@ -53,10 +53,27 @@ function initdb() {
   });
 }
 
+// return the first num paths
+// callback(err, row)
+function getPaths(num, callback){
+  var count = 0;
+  db.each("SELECT path from paths", function(err, row){
+    count++;
+    if(count < num){
+      callback(err, row);
+    }
+  });
+}
+exports.getPaths = getPaths;
 
 // tagnames ==> paths
+// USAGE:
+/** var paths = function(err, row) {
+*     console.log('Found Path(s): '+row.path);
+*   };
+*   db.search('Paul', paths);
+**/
 function search(tagname, callback) {
-  var paths = [];
   db.each("SELECT p.path FROM paths p, tags t, tagnames tn WHERE p.pathid=t.pathid AND t.tagid=tn.tagid AND tn.name=(?)", tagname, callback);
 }
 exports.search = search;
