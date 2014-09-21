@@ -14,7 +14,7 @@ function findFilesWithExtention(dir, extentions) {
     "use strict";
     var lst =[];
 
-    for ( var i = 0; i < paths.length; i++) {
+    for ( var i in paths) {
         for (var j = 0; j < extentions.length; j++) {
             if (S(paths[i]).endsWith(S(dir.concat(extentions[j])))) {
                 lst.push(paths[i]);
@@ -102,7 +102,7 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send('add-files', json);
+        event.sender.send('add-files', arg);
         console.log("hi");
     });
 
