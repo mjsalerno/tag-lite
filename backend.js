@@ -4,11 +4,9 @@ var db       = require('./db');
 var S        = require('string');
 var sql      = require("sqlite3");
 var config   = require('./config');
-var express  = require("express");
 var walkSync = require('walk-sync');
 
 var path = '.';
-var isServer = false;
 
 var paths = walkSync(path);
 
@@ -40,7 +38,7 @@ function fileOK(path, extentions) {
     return ok;
 }
 
-function setupExpress(io) {
+function setupIPC(io) {
     "use strict";
 
     // io.get('/', function(req, res){
@@ -178,19 +176,6 @@ function setupExpress(io) {
         console.log('socket: ' + socket);
     });
 }
-exports.setupExpress = setupExpress;
+exports.setupIPC = setupIPC;
 
 db.open(config.dbname);
-
-
-if (isServer) {
-
-    var app = require('express')();
-    var http = require('http').Server(app);
-
-    setupExpress(app);
-
-    http.listen(3000, function(){
-        console.log('listening on *:3000');
-    });
-}

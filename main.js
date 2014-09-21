@@ -2,6 +2,8 @@ var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var dialog = require('dialog');
 var Screen = require('screen');
+var backend = require('./backend');
+var ipc = require('ipc');
 
 // Get the screen dimensions
 var size = Screen.getPrimaryDisplay().workAreaSize;
@@ -22,6 +24,8 @@ app.on('window-all-closed', function() {
 // This method will be called when atom-shell has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
+  backend.setupIPC(ipc);
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: size.width, height: size.height});
   mainWindow.maximize();
