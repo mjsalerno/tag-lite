@@ -91,12 +91,10 @@ function setupIPC(io) {
 
         for(var i in files) {
             if(fileOK(files[i], config.extentions)) {
-                rtn = db.addFile(files[i]);
-                if(!rtn) break;
+                db.addFile(files[i]);
             } else {
                 console.log("File does not exist: " + files[i]);
             }
-
             for(var j in tags) {
                 rtn = db.addTagToFile(file, tags[j]);
                 if(!rtn) break;
