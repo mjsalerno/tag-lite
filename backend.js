@@ -72,12 +72,12 @@ function setupExpress(io) {
         var json = {};
         var rtn = false;
 
-        for(var file in files) {
-            rtn = db.addFile(file);
+        for(var i in files) {
+            rtn = db.addFile(files[i]);
             if(!rtn) break;
 
-            for(var tag in tags) {
-                rtn = db.addTagToFile(file, tag);
+            for(var j in tags) {
+                rtn = db.addTagToFile(file, tags[j]);
                 if(!rtn) break;
             }
         }
