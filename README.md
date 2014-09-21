@@ -9,6 +9,7 @@ Facebook like image tagging without storing on the cloud. Local node server runn
 	* `git clone git@github.com:mjsalerno/tag-light.git`
 2. Install nodejs, and npm
 	* `sudo apt-get install nodejs`
+        * You may need to compile node from source; get the newest version of node.    
 	* `sudo apt-get install npm`
 3. Install atom-shell
     * [atom-shell](https://github.com/atom/atom-shell/releases)
