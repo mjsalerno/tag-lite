@@ -177,3 +177,29 @@ $(document).ready(function(){
 
 
 
+icp.on('search', function(event, arg) {
+});
+
+icp.on('add-dirs', function(event, arg) {
+});
+
+icp.on('add-files', function(event, arg) {
+});
+
+icp.on('add-tag-names', function(event, arg) {
+});
+
+icp.on('edit-tag-name', function(event, arg) {
+});
+
+icp.on('delete-tag-names', function(event, arg) {
+});
+
+icp.on('untrack-dirs', function(event, arg) {
+});
+
+icp.on('untrack-files', function(event, arg) {
+});
+
+icp.on('update-file', function(event, arg) {
+});
