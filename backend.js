@@ -13,6 +13,7 @@ var isServer = false;
 var paths = walkSync(path);
 
 function findFilesWithExtention(dir, extentions) {
+    "use strict";
     var lst =[];
 
     for ( var i = 0; i < paths.length; i++) {
@@ -40,6 +41,7 @@ function fileOK(path, extentions) {
 }
 
 function setupExpress(io) {
+    "use strict";
 
     // io.get('/', function(req, res){
     //     res.send(findFilesWithExtention('.', config.extentions));
@@ -86,8 +88,12 @@ function setupExpress(io) {
         var rtn = false;
 
         for(var i in files) {
-            rtn = db.addFile(files[i]);
-            if(!rtn) break;
+            if(fileOK(files[i])) {
+                rtn = db.addFile(files[i]);
+                if(!rtn) break;
+            } else {
+                console.log("File does not exist: " + files[i]);
+            }
 
             for(var j in tags) {
                 rtn = db.addTagToFile(file, tags[j]);
