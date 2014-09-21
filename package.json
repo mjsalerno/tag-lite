@@ -2,11 +2,9 @@
 	"name": "tag-lite",
 	"description": "Localized file tagging.",
 	"version": "0.0.1",
+	"main": "main.js",
 	"dependencies" : {
-		"express": "4.x",
-		"socket.io": "1.x.x",
 		"sqlite3": "2.2.x",
-        "sshfs-node": "0.0.7",
         "fs": "0.0.2",
         "walk-sync": "0.1.2",
         "string": "2.0.1"

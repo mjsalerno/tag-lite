@@ -1,9 +1,17 @@
-/* Connect to the websocket */
-var socket = io.connect(document.URL);
+var remote = require('remote');
+var dialog = remote.require('dialog');
+var browserWindow = remote.getCurrentWindow();
 
-/* Handle search results */
-socket.on('news', function (data) {
-	console.log(data);
+// Get the home directory
+var home = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+
+$("#trackfiles").click(function() {
+	// open the file dialoug to track files
+	dialog.showOpenDialog(browserWindow, {defaultPath: home, properties: [ 'openDirectory', 'openFile', 'multiSelections' ]} , function(selectedPath) {
+  		if(selectedPath) {
+  			console.log(selectedPath);
+  		}
+	});
 });
 
 /* All calls made to server are contained in this object */
