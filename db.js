@@ -15,7 +15,7 @@ function open(dbpath) {
   if(fs.existsSync(dbpath)){
     db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
       if (err !== null) {
-        console.log("ERR:"+dbath+" exists but could not open.");
+        console.log("ERR:"+dbpath+" exists but could not open.");
         return;
       }
       console.log("Database "+dbpath+" opened!");

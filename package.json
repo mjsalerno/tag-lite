@@ -4,15 +4,10 @@
 	"version": "0.0.1",
 	"main": "main.js",
 	"dependencies" : {
-		"sqlite3": "2.2.x",
-        "fs": "0.0.2",
-        "walk-sync": "0.1.2",
-        "string": "2.0.1",
-        "dblite": "0.6.1",
-        "redis": "0.12.1",
-        "min": "0.0.4"
+        	"fs": "0.0.2",
+        	"walk-sync": "0.1.2",
+        	"string": "2.0.1"
 	},
-
 	"repository": {
   		"type": "git",
   		"url": "git@github.com:mjsalerno/tag-light.git"
