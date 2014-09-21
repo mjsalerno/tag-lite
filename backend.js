@@ -37,7 +37,33 @@ function setupExpress(io) {
     });
 
     io.on('add-dirs', function(socket){
-        console.log('socket: ' + socket);
+        var dirs = socket.directories;
+        var tags = socket.tagnames;
+        var files = [];
+        var json = {};
+        var rtn = false;
+        var results = [];
+
+        for(var i in dirs) {
+            files.concat(findFilesWithExtention(dir[i], config.extentions));
+        }
+
+        for(i in files) {
+            var tmp = {};
+
+            for(var j in tags) {
+                rtn = db.addTagToFile(files[i], tags[j]);
+                if(!rtn) break;
+            }
+            if(!rtn) break;
+
+            tmp.files[i] = tags;
+            results.push(tmp);
+        }
+
+        json.results = results;
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('add-files', function(socket){
