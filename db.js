@@ -27,20 +27,15 @@ function initdb() {
       db.exec(sql);
     }
   });
-
 }
+
 
 // tagnames ==> paths
-function search(tagname) {
+function search(tagname, callback) {
   var paths = [];
-  db.each("SELECT p.path FROM paths p, tags t, tagnames tn WHERE p.id=t.pathid AND t.id=tn.id AND tn.name=(?));", tagname, function(err, row) {
-    if (err !== null) {
-      console.log(err);
-      return;
-    }
-    paths[paths.length] = row.path;
-  });
+  db.each("SELECT p.path FROM paths p, tags t, tagnames tn WHERE p.pathid=t.pathid AND t.tagid=tn.tagid AND tn.name=(?)", tagname, callback);
 }
+exports.search = search;
 
 // add file to db
 function addFile(path) {
@@ -49,9 +44,7 @@ function addFile(path) {
       console.log(err);
       return;
     }
-    else {
-      console.log("INSERT: "+this.lastID);
-    }
+    console.log("INSERT: "+this.lastID);
   });
 }
 exports.addFile = addFile;
@@ -62,10 +55,9 @@ function removePath(path) {
   db.run("DELETE FROM paths WHERE path LIKE (?)", path+'%', function (err) {
     if (err !== null) {
       console.log(err);
+      return;
     }
-    else {
-      console.log("DELETE: "+this.changes);
-    }
+    console.log("DELETE: "+this.changes);
   });
 }
 exports.removePath = removePath;
@@ -75,10 +67,9 @@ function addTagname(tagname) {
   db.run("INSERT INTO tagnames VALUES (null,(?))", tagname, function (err) {
     if (err !== null) {
       console.log(err);
+      return;
     }
-    else {
-      console.log("INSERT: "+this.changes);
-    }
+    console.log("INSERT: "+this.changes);
   });
 }
 exports.addTagname = addTagname;
@@ -88,10 +79,9 @@ function removeTagname(tagname) {
   db.run("DELETE FROM tagnames WHERE name LIKE (?)", tagname, function (err) {
     if (err !== null) {
       console.log(err);
+      return;
     }
-    else {
-      console.log("DELETE: "+this.changes);
-    }
+    console.log("DELETE: "+this.changes);
   });
 }
 exports.removeTagname = removeTagname;
@@ -101,10 +91,9 @@ function renameTag(orig, modified) {
   db.run("UPDATE tagnames SET name=(?) WHERE name LIKE (?)", modified, orig, function (err) {
     if (err !== null) {
       console.log(err);
+      return;
     }
-    else {
-      console.log("UPDATE: "+this.changes);
-    }
+    console.log("UPDATE: "+this.changes);
   });
 }
 exports.renameTag = renameTag;
