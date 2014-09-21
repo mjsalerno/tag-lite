@@ -87,6 +87,7 @@ $("#updatefile").click(function(){
 });
 
 $("#addfiles").click(function(){
+	console.log("Add files");
 	var files = $("#input").val().split(' ');
 	api.add_files(files, ['random', 'tags']);
 });
@@ -175,38 +176,38 @@ $(document).ready(function(){
 	$("#content").empty().load("templates/overview.html");
 });
 
-icp.on('search', function(event, arg) {
+ipc.on('search', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('add-dirs', function(event, arg) {
+ipc.on('add-dirs', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('add-files', function(event, arg) {
+ipc.on('add-files', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('add-tag-names', function(event, arg) {
+ipc.on('add-tag-names', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('edit-tag-name', function(event, arg) {
+ipc.on('edit-tag-name', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('delete-tag-names', function(event, arg) {
+ipc.on('delete-tag-names', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('untrack-dirs', function(event, arg) {
+ipc.on('untrack-dirs', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('untrack-files', function(event, arg) {
+ipc.on('untrack-files', function(event, arg) {
     console.log('got it :D');
 });
 
-icp.on('update-file', function(event, arg) {
+ipc.on('update-file', function(event, arg) {
     console.log('got it :D');
 });
