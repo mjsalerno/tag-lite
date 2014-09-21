@@ -174,6 +174,3 @@ $("#tagmanagement").click(function(){
 $(document).ready(function(){
 	$("#content").empty().load("templates/overview.html");
 });
-
-
-

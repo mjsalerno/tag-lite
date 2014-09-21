@@ -1,3 +1,4 @@
+/*
 var db = require('./db');
 db.open('taglite.dbasdasd');
 console.log("db: " + db);
@@ -14,3 +15,27 @@ db.search('Paul', paths)
 console.log('Searching: '+paths);
 
 db.close();
+*/
+
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database("taglite.db", sqlite3.OPEN_READWRITE, function(err) {
+	if(err) {
+		
+	}
+});
+
+db.serialize(function() {
+	test('besttags');
+	console.log("Hello, World");
+});
+
+function test(tagname) {
+	db.run("INSERT INTO tagnames VALUES (null,(?))", tagname, function (err) {
+	    if (err !== null) {
+	      console.log(err);
+	      return;
+	    }
+    	console.log("INSERT: " + this.changes);
+  	});
+	console.log("Inside Test");
+}
