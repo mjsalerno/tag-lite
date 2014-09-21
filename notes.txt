@@ -1,0 +1,2 @@
+- cant find a way to use redis as a local file
+- how the fuck do you init min
