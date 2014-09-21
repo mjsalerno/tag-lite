@@ -49,6 +49,7 @@ function setupIPC(io) {
 
     io.on('search', function(event, arg) {
         console.log(arg.tagnames);
+        event.sender.send('search', {});
     });
 
     io.on('add-dirs', function(event, arg) {
@@ -78,7 +79,7 @@ function setupIPC(io) {
 
         json.results = results;
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('add-dirs', json);
         console.log("hi");
     });
 
@@ -103,7 +104,7 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('add-files', json);
         console.log("hi");
     });
 
@@ -119,7 +120,7 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('add-tag-names', json);
         console.log("hi");
     });
 
@@ -132,7 +133,7 @@ function setupIPC(io) {
         rtn = db.renameTag(orig, modi);
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('edit-tag-name', json);
         console.log("hi");
     });
 
@@ -148,7 +149,7 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('delete-tag-names', json);
         console.log("hi");
     });
 
@@ -163,7 +164,7 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('untrack-dirs', json);
         console.log("hi");
     });
 
@@ -178,12 +179,13 @@ function setupIPC(io) {
         }
 
         json.success = rtn;
-        event.sender.send(json);
+        event.sender.send('untrack-files', json);
         console.log("hi");
     });
 
     io.on('update-file', function(event, arg) {
         console.log('arg: ' + arg);
+        event.sender.send('update-file', {});
     });
 }
 exports.setupIPC = setupIPC;
