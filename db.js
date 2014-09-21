@@ -15,7 +15,8 @@ function open(dbpath) {
   if(fs.existsSync(dbpath)){
     db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
       if (err !== null) {
-        console.log("ERR:"+dbath+" exists but could not open.");
+        console.log("ERR:"+dbpath+" exists but could not open.");
+        console.log(err);
         return;
       }
       console.log("Database "+dbpath+" opened!");
@@ -29,6 +30,7 @@ function open(dbpath) {
     db = new sqlite3.Database(dbpath, function (err) {
       if (err !== null) {
         console.log("ERR:"+dbpath+" doesn't exist and could not open.");
+        console.log(err);
         return;
       }
       initdb();
@@ -43,6 +45,8 @@ function initdb() {
   db.exec(sqlstr, function (err){
     if(err !== null){
       console.log("FAILED to exec sqlstr for new db.");
+      console.log(err);
+      return;
     }
   });
 }
