@@ -13,6 +13,7 @@ var isServer = false;
 var paths = walkSync(path);
 
 function findFilesWithExtention(dir, extentions) {
+    "use strict";
     var lst =[];
 
     for ( var i = 0; i < paths.length; i++) {
@@ -26,7 +27,21 @@ function findFilesWithExtention(dir, extentions) {
     return lst;
 }
 
+function fileOK(path, extentions) {
+    "use strict";
+
+    var ok = true;
+    ok &= fs.existsSync(files[i]);
+
+    for (var i = 0; i < extentions.length; i++) {
+        ok &= S(path).endsWith(S(extentions[i]));
+    }
+
+    return ok;
+}
+
 function setupExpress(io) {
+    "use strict";
 
     // io.get('/', function(req, res){
     //     res.send(findFilesWithExtention('.', config.extentions));
@@ -37,15 +52,71 @@ function setupExpress(io) {
     });
 
     io.on('add-dirs', function(socket){
-        console.log('socket: ' + socket);
+        var dirs = socket.directories;
+        var tags = socket.tagnames;
+        var files = [];
+        var json = {};
+        var rtn = false;
+        var results = [];
+
+        for(var i in dirs) {
+            files.concat(findFilesWithExtention(dir[i], config.extentions));
+        }
+
+        for(i in files) {
+            var tmp = {};
+
+            for(var j in tags) {
+                rtn = db.addTagToFile(files[i], tags[j]);
+                if(!rtn) break;
+            }
+            if(!rtn) break;
+
+            tmp.files[i] = tags;
+            results.push(tmp);
+        }
+
+        json.results = results;
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('add-files', function(socket){
-        console.log('socket: ' + socket);
+        var files = socket.files;
+        var tags  = socket.tagnames;
+        var json = {};
+        var rtn = false;
+
+        for(var i in files) {
+            if(fileOK(files[i])) {
+                rtn = db.addFile(files[i]);
+                if(!rtn) break;
+            } else {
+                console.log("File does not exist: " + files[i]);
+            }
+
+            for(var j in tags) {
+                rtn = db.addTagToFile(file, tags[j]);
+                if(!rtn) break;
+            }
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('add-tag-names', function(socket){
-        console.log('socket: ' + socket);
+        var tags = socket.tagnames;
+        var rtn = false;
+        var json = {};
+
+        for(var i in tags) {
+            rtn = db.addTagname(tags[i]);
+            if(!rtn) break;
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('edit-tag-name', function(socket){
@@ -68,9 +139,7 @@ function setupExpress(io) {
         for (var i = 0; i < lst.length; i++) {
             rtn = vardb.removePath(lst[i]);
             db.removeTagname(lst[i]);
-            if(!rtn) {
-                break;
-            }
+            if(!rtn) break;
         }
 
         json.success = rtn;
@@ -84,9 +153,7 @@ function setupExpress(io) {
 
         for (var i = 0; i < lst.length; i++) {
             rtn = db.removePath(lst[i]);
-            if(!rtn) {
-                break;
-            }
+            if(!rtn) break;
         }
 
         json.success = rtn;
@@ -94,7 +161,17 @@ function setupExpress(io) {
     });
 
     io.on('untrack-files', function(socket){
-        console.log('socket: ' + socket);
+        var json = {};
+        var lst = socket.files;
+        var rtn = false;
+
+        for (var i = 0; i < lst.length; i++) {
+            rtn = db.removePath(lst[i]);
+            if(!rtn) break;
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('update-file', function(socket){
