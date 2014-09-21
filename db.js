@@ -12,35 +12,37 @@ exports.close = close;
 
 // opens the database at dbpath, or creates if it doesn’t exist
 function open(dbpath) {
-  // XXX: check if dbpath exists
-  db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
-    if (err !== null) {
-      // maybe dbpath not there
-      console.log("Creating new database.");
-      initdb();
-    }
-    else{
+  if(fs.existsSync(dbpath)){
+    db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
+      if (err !== null) {
+        console.log("ERR:"+dbath+" exists but could not open.");
+        return;
+      }
       console.log("Database "+dbpath+" opened!");
-    }
-    // serialize, we don't need concurrecy here.
-    db.serialize();
-    // we want foreign key constraints!
-    db.run('PRAGMA foreign_keys = ON;');
-  });
+      // serialize, we don't need concurrecy here.
+      db.serialize();
+      // we want foreign key constraints!
+      db.run('PRAGMA foreign_keys = ON;');
+    });
+  }
+  else{
+    db = new sqlite3.Database(dbpath, function (err) {
+      if (err !== null) {
+        console.log("ERR:"+dbath+" doesn't exists and could not open.");
+        return;
+      }
+      initdb();
+    });
+  }
   console.log("this might be null: "+db);
 }
 exports.open = open;
 
 function initdb() {
-  // XXX: initdb.sql drops tables
-  fs.readFile('initdb.sql', 'utf8', function (err, sql) {
-    if (err) {
-      throw err;
-    }
-    else {
-      //console.log(sql);
-      // XXX: careful, sql prior to this callback are voided?
-      db.exec(sql);
+  var sqlstr = "DROP TABLE IF EXISTS tags;DROP TABLE IF EXISTS paths;DROP TABLE IF EXISTS captions;DROP TABLE IF EXISTS tagnames;CREATE TABLE tagnames (tagid integer PRIMARY KEY, name varchar(80), UNIQUE (name) ON CONFLICT ROLLBACK);CREATE TABLE paths (pathid integer PRIMARY KEY, path varchar(240), UNIQUE (path) ON CONFLICT ROLLBACK);CREATE TABLE captions (captionid integer PRIMARY KEY, caption TEXT);CREATE TABLE tags (tagid integer, pathid integer, pos varchar(100), captionid integer, PRIMARY KEY (tagid, pathid, pos), FOREIGN KEY (tagid) REFERENCES tagnames(tagid) ON DELETE CASCADE, FOREIGN KEY (pathid) REFERENCES paths(pathid) ON DELETE CASCADE, FOREIGN KEY (captionid) REFERENCES captions(captionid) ON DELETE SET NULL);INSERT INTO tagnames VALUES (1, 'Paul');INSERT INTO paths VALUES (5, '/path/to/file/here.png');INSERT INTO captions VALUES (1, 'Fun day with Shane and Sherry!');INSERT INTO tags VALUES (1, 5, '{point:[40, 60], dx:10, dy:25}', 1);";
+  db.exec(sqlstr, function (err){
+    if(err !== null){
+      console.log("FAILED to exec sqlstr for new db.");
     }
   });
 }
