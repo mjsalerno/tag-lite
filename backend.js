@@ -46,7 +46,7 @@ function setupIPC(io) {
     // });
 
     io.on('search', function(event, arg) {
-        console.log('socket: ' + socket);
+        console.log('arg: ' + arg);
     });
 
     io.on('add-dirs', function(event, arg) {
@@ -180,7 +180,7 @@ function setupIPC(io) {
     });
 
     io.on('update-file', function(event, arg) {
-        console.log('socket: ' + socket);
+        console.log('arg: ' + arg);
     });
 }
 exports.setupIPC = setupIPC;
