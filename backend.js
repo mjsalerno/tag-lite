@@ -77,6 +77,7 @@ function setupIPC(io) {
         json.results = results;
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('add-files', function(event, arg) {
@@ -101,6 +102,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('add-tag-names', function(event, arg) {
@@ -115,6 +117,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('edit-tag-name', function(event, arg) {
@@ -127,6 +130,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('delete-tag-names', function(event, arg) {
@@ -142,6 +146,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('untrack-dirs', function(event, arg) {
@@ -156,6 +161,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('untrack-files', function(event, arg) {
@@ -170,6 +176,7 @@ function setupIPC(io) {
 
         json.success = rtn;
         event.sender.send(json);
+        console.log("hi");
     });
 
     io.on('update-file', function(event, arg) {
