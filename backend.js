@@ -87,7 +87,17 @@ function setupExpress(io) {
     });
 
     io.on('add-tag-names', function(socket){
-        console.log('socket: ' + socket);
+        var tags = socket.tagnames;
+        var rtn = false;
+        var json = {};
+
+        for(var i in tags) {
+            rtn = db.addTagname(tags[i]);
+            if(!rtn) break;
+        }
+
+        json.success = rtn;
+        socket.emit(json);
     });
 
     io.on('edit-tag-name', function(socket){
