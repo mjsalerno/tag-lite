@@ -29,10 +29,12 @@ function fileOK(path, extentions) {
     "use strict";
 
     var ok = true;
-    ok &= fs.existsSync(files[i]);
+    ok &= fs.existsSync(path);
+    if(!ok) return false;
+    ok = false;
 
     for (var i = 0; i < extentions.length; i++) {
-        ok &= S(path).endsWith(S(extentions[i]));
+        ok |= S(path).endsWith(S(extentions[i]));
     }
 
     return ok;
