@@ -6,12 +6,21 @@ var db;
 // opens the database at dbpath, or creates if it doesn’t exist
 function open(dbpath) {
   // XXX: check if dbpath exists
-  db = new sqlite3.Database(dbpath);
-  //initdb();
-  console.log("Database opened!");
-
-  // we want foreign key constraints!
-  db.run('PRAGMA foreign_keys = ON;');
+  db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
+    if (err !== null) {
+      // maybe dbpath not there
+      console.log("Creating new database.");
+      initdb();
+    }
+    else{
+      console.log("Database "+dbpath+" opened!");
+    }
+    // serialize, we don't need concurrecy here.
+    db.serialize();
+    // we want foreign key constraints!
+    db.run('PRAGMA foreign_keys = ON;');
+  });
+  console.log("this might be null: "+db);
 }
 exports.open = open;
 
@@ -22,7 +31,7 @@ function initdb() {
       throw err;
     }
     else {
-      console.log(sql);
+      //console.log(sql);
       // XXX: careful, sql prior to this callback are voided?
       db.exec(sql);
     }
