@@ -3,6 +3,13 @@ var fs = require('fs');
 var sqlite3 = require('sqlite3').verbose();
 var db;
 
+function close() {
+  db.close(function(err) {
+    console.log(err);
+  });
+}
+exports.close = close;
+
 // opens the database at dbpath, or creates if it doesn’t exist
 function open(dbpath) {
   // XXX: check if dbpath exists
@@ -115,7 +122,7 @@ function updateFile(path, tagnames, caption) {
   db.serialize();
   db.get("SELECT pathid FROM paths WHERE path LIKE (?)", path, function (err, row) {
     if (err !== null) {
-      console.log(err)
+      console.log(err);
       return;
     }
     pathid = row.tagid;
@@ -131,7 +138,7 @@ function updateFile(path, tagnames, caption) {
       for (var i = tagnames.length - 1; i >= 0; i--) {
         db.get("SELECT tagid FROM tagnames WHERE name LIKE (?)", tagnames[i], function (err, row) {
           if (err !== null) {
-            console.log(err)
+            console.log(err);
             return;
           }
           // XXX: tagnames must be in tagnames already
@@ -147,7 +154,7 @@ function updateFile(path, tagnames, caption) {
             }
           });
         });
-      };
+      }
     });
   });
 }

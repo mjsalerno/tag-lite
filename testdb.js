@@ -1,6 +1,6 @@
 var db = require('./db');
 db.open('taglite.dbasdasd');
-console.log(db);
+console.log("db: " + db);
 var orig = 'Paul';
 var modified = 'PaulieBoy!!!';
 console.log('Renaming tag:');
@@ -13,4 +13,4 @@ var paths = [];
 db.search('Paul', paths)
 console.log('Searching: '+paths);
 
-close(db);
+db.close();
