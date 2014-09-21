@@ -103,8 +103,8 @@ function setupIPC(io) {
             }
         }
 
-        json.files = f;
-        event.sender.send('add-files', arg);
+        json['files'] = f;
+        event.sender.send('add-files', json);
         console.log("hi");
     });
 
