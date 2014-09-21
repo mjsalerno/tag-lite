@@ -1,6 +1,7 @@
 var remote = require('remote');
 var dialog = remote.require('dialog');
 var browserWindow = remote.getCurrentWindow();
+var ipc = require('ipc');
 
 // Get the home directory
 var home = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
@@ -17,42 +18,42 @@ $("#trackfiles").click(function() {
 /* All calls made to server are contained in this object */
 function Calls() {
 	this.search = function(tags) {
-		socket.emit('search', {'tagnames': tags});
+		ipc.send('search', {'tagnames': tags});
 	};
 
 	this.add_dirs = function(directories, tags) {
-		socket.emit('add-dirs', {'directories': directories, 'tagnames': tags});
+		ipc.send('add-dirs', {'directories': directories, 'tagnames': tags});
 	};
 
 	this.untrack_dirs = function(directories) {
-		socket.emit('untrack-dirs', {'directories': directories});
+		ipc.send('untrack-dirs', {'directories': directories});
 	};
 
 	this.untrack_files = function(files) {
-		socket.emit('untrack-files', {'files': files});
+		ipc.send('untrack-files', {'files': files});
 	};
 
 	this.update_file = function(file, tags, caption) {
-		socket.emit('update-file', {file: {
+		ipc.send('update-file', {file: {
 			'tagnames': tags,
 			'caption': caption
 		}});
 	};
 
 	this.add_files = function(files, tags) {
-		socket.emit('add-files', {'files': files, 'tagnames': tags});
+		ipc.send('add-files', {'files': files, 'tagnames': tags});
 	};
 
 	this.add_tag_names = function(tags) {
-		socket.emit('add-tag-names', {'tagnames': tags});
+		ipc.send('add-tag-names', {'tagnames': tags});
 	};
 
 	this.edit_tag_name = function(original_tag, new_tag) {
-		socket.emit('edit-tag-name', {'original': original_tag, 'modified': new_tag});
+		ipc.send('edit-tag-name', {'original': original_tag, 'modified': new_tag});
 	};
 
 	this.delete_tag_names = function(tags) {
-		socket.emit('delete-tag-names', {'tagnames': tags});
+		ipc.send('delete-tag-names', {'tagnames': tags});
 	};
 }
 
