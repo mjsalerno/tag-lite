@@ -89,7 +89,7 @@ function setupIPC(io) {
         var rtn = false;
 
         for(var i in files) {
-            if(fileOK(files[i])) {
+            if(fileOK(files[i], config.extentions)) {
                 rtn = db.addFile(files[i]);
                 if(!rtn) break;
             } else {
