@@ -47,13 +47,13 @@ function setupExpress(io) {
     //     res.send(findFilesWithExtention('.', config.extentions));
     // });
 
-    io.on('search', function(socket){
+    io.on('search', function(event, arg) {
         console.log('socket: ' + socket);
     });
 
-    io.on('add-dirs', function(socket){
-        var dirs = socket.directories;
-        var tags = socket.tagnames;
+    io.on('add-dirs', function(event, arg) {
+        var dirs = arg.directories;
+        var tags = arg.tagnames;
         var files = [];
         var json = {};
         var rtn = false;
@@ -78,12 +78,12 @@ function setupExpress(io) {
 
         json.results = results;
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('add-files', function(socket){
-        var files = socket.files;
-        var tags  = socket.tagnames;
+    io.on('add-files', function(event, arg) {
+        var files = arg.files;
+        var tags  = arg.tagnames;
         var json = {};
         var rtn = false;
 
@@ -102,11 +102,11 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('add-tag-names', function(socket){
-        var tags = socket.tagnames;
+    io.on('add-tag-names', function(event, arg) {
+        var tags = arg.tagnames;
         var rtn = false;
         var json = {};
 
@@ -116,24 +116,24 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('edit-tag-name', function(socket){
+    io.on('edit-tag-name', function(event, arg) {
         var json = {};
-        var orig = socket.original;
-        var modi = socket.modified;
+        var orig = arg.original;
+        var modi = arg.modified;
         var rtn = false;
 
         rtn = db.renameTag(orig, modi);
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('delete-tag-names', function(socket){
+    io.on('delete-tag-names', function(event, arg) {
         var json = {};
-        var lst = socket.tagnames;
+        var lst = arg.tagnames;
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
@@ -143,12 +143,12 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('untrack-dirs', function(socket){
+    io.on('untrack-dirs', function(event, arg) {
         var json = {};
-        var lst = socket.directories;
+        var lst = arg.directories;
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
@@ -157,12 +157,12 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('untrack-files', function(socket){
+    io.on('untrack-files', function(event, arg) {
         var json = {};
-        var lst = socket.files;
+        var lst = arg.files;
         var rtn = false;
 
         for (var i = 0; i < lst.length; i++) {
@@ -171,10 +171,10 @@ function setupExpress(io) {
         }
 
         json.success = rtn;
-        socket.emit(json);
+        event.sender.send(json);
     });
 
-    io.on('update-file', function(socket){
+    io.on('update-file', function(event, arg) {
         console.log('socket: ' + socket);
     });
 }
