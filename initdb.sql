@@ -6,7 +6,7 @@ CREATE TABLE tagnames (tagid integer PRIMARY KEY, name varchar(80), UNIQUE (name
 CREATE TABLE paths (pathid integer PRIMARY KEY, path varchar(240), UNIQUE (path) ON CONFLICT ROLLBACK);
 CREATE TABLE captions (captionid integer PRIMARY KEY, caption TEXT);
 CREATE TABLE tags (tagid integer, pathid integer, pos varchar(100), captionid integer, PRIMARY KEY (tagid, pathid, pos), FOREIGN KEY (tagid) REFERENCES tagnames(tagid) ON DELETE CASCADE, FOREIGN KEY (pathid) REFERENCES paths(pathid) ON DELETE CASCADE, FOREIGN KEY (captionid) REFERENCES captions(captionid) ON DELETE SET NULL);
-INSERT INTO tagnames VALUES (1, 'Paul');
-INSERT INTO paths VALUES (5, '/path/to/file/here.png');
-INSERT INTO captions VALUES (1, 'Fun day with Shane and Sherry!');
-INSERT INTO tags VALUES (1, 5, '{point:[40, 60], dx:10, dy:25}', 1);
+-- INSERT INTO tagnames VALUES (1, 'Paul');
+-- INSERT INTO paths VALUES (5, '/path/to/file/here.png');
+-- INSERT INTO captions VALUES (1, 'Fun day with Shane and Sherry!');
+-- INSERT INTO tags VALUES (1, 5, '{point:[40, 60], dx:10, dy:25}', 1);
