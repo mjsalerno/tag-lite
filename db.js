@@ -30,11 +30,24 @@ function initdb() {
 
 }
 
-// add file to db
-function addFile(path) {
-  db.run("INSERT INTO paths VALUES (?)", path, function (err) {
+// tagnames ==> paths
+function search(tagname) {
+  var paths = [];
+  db.each("SELECT p.path FROM paths p, tags t, tagnames tn WHERE p.id=t.pathid AND t.id=tn.id AND tn.name=(?));", tagname, function(err, row) {
     if (err !== null) {
       console.log(err);
+      return;
+    }
+    paths[paths.length] = row.path;
+  });
+}
+
+// add file to db
+function addFile(path) {
+  db.run("INSERT INTO paths VALUES (null, (?))", path, function (err) {
+    if (err !== null) {
+      console.log(err);
+      return;
     }
     else {
       console.log("INSERT: "+this.lastID);
@@ -58,7 +71,7 @@ function removePath(path) {
 exports.removePath = removePath;
 
 // add tagname 
-function addTagnames(tagname) {
+function addTagname(tagname) {
   db.run("INSERT INTO tagnames VALUES (null,(?))", tagname, function (err) {
     if (err !== null) {
       console.log(err);
@@ -68,7 +81,7 @@ function addTagnames(tagname) {
     }
   });
 }
-exports.addTagnames = addTagnames;
+exports.addTagname = addTagname;
 
 // remove all occurrences of tagname from the db
 function removeTagname(tagname) {
@@ -95,6 +108,53 @@ function renameTag(orig, modified) {
   });
 }
 exports.renameTag = renameTag;
+
+// tagnames must exist in the db already!!!!
+function updateFile(path, tagnames, caption) {
+  //removePath(path);
+  var pathid;
+  var captionid;
+  db.serialize();
+  db.get("SELECT pathid FROM paths WHERE path LIKE (?)", path, function (err, row) {
+    if (err !== null) {
+      console.log(err)
+      return;
+    }
+    pathid = row.tagid;
+    console.log("pathid: "+pathid);
+    db.run("DELETE FROM tags WHERE pathid=(?)", pathid);
+    db.run("INSERT INTO captions VALUES (null, (?))", caption, function (err) {
+      if (err !== null) {
+        console.log(err);
+        return;
+      }
+      console.log("INSERT CAPTION: "+this.lastID);
+      captionid = this.lastID;
+      for (var i = tagnames.length - 1; i >= 0; i--) {
+        db.get("SELECT tagid FROM tagnames WHERE name LIKE (?)", tagnames[i], function (err, row) {
+          if (err !== null) {
+            console.log(err)
+            return;
+          }
+          // XXX: tagnames must be in tagnames already
+          db.run("INSERT INTO tags VALUES ($tagid, $path, $pos, $captionid)", {
+            $tagid: row.tagid,
+            $path: pathid,
+            $pos: null,
+            $captionid: captionid
+          }, function (err) {
+            if (err !== null) {
+            console.log(err);
+            return;
+            }
+          });
+        });
+      };
+    });
+  });
+}
+exports.updateFile = updateFile;
+
 
 //db.serialize(function () {
   //db.each("SELECT * FROM tag", function(err, row) {
