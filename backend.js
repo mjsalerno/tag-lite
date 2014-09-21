@@ -111,6 +111,7 @@ function setupIPC(io) {
         var json = {};
 
         for(var i in tags) {
+            console.log(tags[i]);
             rtn = db.addTagname(tags[i]);
             if(!rtn) break;
         }
