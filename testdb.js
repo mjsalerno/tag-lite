@@ -13,4 +13,4 @@ var paths = [];
 db.search('Paul', paths);
 console.log('Searching: '+paths);
 
-db.close();
+//db.close();

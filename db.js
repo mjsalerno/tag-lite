@@ -28,7 +28,7 @@ function open(dbpath) {
   else{
     db = new sqlite3.Database(dbpath, function (err) {
       if (err !== null) {
-        console.log("ERR:"+dbath+" doesn't exists and could not open.");
+        console.log("ERR:"+dbpath+" doesn't exist and could not open.");
         return;
       }
       initdb();
