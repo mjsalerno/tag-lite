@@ -26,6 +26,19 @@ function findFilesWithExtention(dir, extentions) {
     return lst;
 }
 
+function fileOK(path, extentions) {
+    "use strict";
+
+    var ok = true;
+    ok &= fs.existsSync(files[i]);
+
+    for (var i = 0; i < extentions.length; i++) {
+        ok &= S(path).endsWith(S(extentions[i]));
+    }
+
+    return ok;
+}
+
 function setupExpress(io) {
 
     // io.get('/', function(req, res){
