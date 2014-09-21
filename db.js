@@ -13,10 +13,11 @@ exports.close = close;
 // opens the database at dbpath, or creates if it doesn’t exist
 function open(dbpath) {
   if(fs.existsSync(dbpath)){
+    // open db
     db = new sqlite3.Database(dbpath, sqlite3.OPEN_READWRITE, function (err) {
-      if (err !== null) {
+      if (err) {
         console.log("ERR:"+dbpath+" exists but could not open.");
-        console.log(err);
+        console.log("ERR:"+err);
         return;
       }
       console.log("Database "+dbpath+" opened!");
@@ -27,10 +28,11 @@ function open(dbpath) {
     });
   }
   else{
+    // create db
     db = new sqlite3.Database(dbpath, function (err) {
-      if (err !== null) {
-        console.log("ERR:"+dbpath+" doesn't exist and could not open.");
-        console.log(err);
+      if (err) {
+        console.log("ERR:"+dbpath+" doesn't exist and could not create.");
+        console.log("ERR:"+err);
         return;
       }
       initdb();
@@ -43,9 +45,9 @@ exports.open = open;
 function initdb() {
   var sqlstr = "DROP TABLE IF EXISTS tags;DROP TABLE IF EXISTS paths;DROP TABLE IF EXISTS captions;DROP TABLE IF EXISTS tagnames;CREATE TABLE tagnames (tagid integer PRIMARY KEY, name varchar(80), UNIQUE (name) ON CONFLICT ROLLBACK);CREATE TABLE paths (pathid integer PRIMARY KEY, path varchar(240), UNIQUE (path) ON CONFLICT ROLLBACK);CREATE TABLE captions (captionid integer PRIMARY KEY, caption TEXT);CREATE TABLE tags (tagid integer, pathid integer, pos varchar(100), captionid integer, PRIMARY KEY (tagid, pathid, pos), FOREIGN KEY (tagid) REFERENCES tagnames(tagid) ON DELETE CASCADE, FOREIGN KEY (pathid) REFERENCES paths(pathid) ON DELETE CASCADE, FOREIGN KEY (captionid) REFERENCES captions(captionid) ON DELETE SET NULL);INSERT INTO tagnames VALUES (1, 'Paul');INSERT INTO paths VALUES (5, '/path/to/file/here.png');INSERT INTO captions VALUES (1, 'Fun day with Shane and Sherry!');INSERT INTO tags VALUES (1, 5, '{point:[40, 60], dx:10, dy:25}', 1);";
   db.exec(sqlstr, function (err){
-    if(err !== null){
-      console.log("FAILED to exec sqlstr for new db.");
-      console.log(err);
+    if(err){
+      console.log("ERR: FAILED to exec sqlstr for new db.");
+      console.log("ERR:"+err);
       return;
     }
   });
@@ -62,7 +64,7 @@ exports.search = search;
 // add file to db
 function addFile(path) {
   db.run("INSERT INTO paths VALUES (null, (?))", path, function (err) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -75,7 +77,7 @@ exports.addFile = addFile;
 // return: true if removed, false if none found or error
 function removePath(path) {
   db.run("DELETE FROM paths WHERE path LIKE (?)", path+'%', function (err) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -87,7 +89,7 @@ exports.removePath = removePath;
 // add tagname 
 function addTagname(tagname) {
   db.run("INSERT INTO tagnames VALUES (null,(?))", tagname, function (err) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -99,7 +101,7 @@ exports.addTagname = addTagname;
 // remove all occurrences of tagname from the db
 function removeTagname(tagname) {
   db.run("DELETE FROM tagnames WHERE name LIKE (?)", tagname, function (err) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -111,7 +113,7 @@ exports.removeTagname = removeTagname;
 // rename orig to modified
 function renameTag(orig, modified) {
   db.run("UPDATE tagnames SET name=(?) WHERE name LIKE (?)", modified, orig, function (err) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -127,7 +129,7 @@ function updateFile(path, tagnames, caption) {
   var captionid;
   db.serialize();
   db.get("SELECT pathid FROM paths WHERE path LIKE (?)", path, function (err, row) {
-    if (err !== null) {
+    if (err) {
       console.log(err);
       return;
     }
@@ -135,7 +137,7 @@ function updateFile(path, tagnames, caption) {
     console.log("pathid: "+pathid);
     db.run("DELETE FROM tags WHERE pathid=(?)", pathid);
     db.run("INSERT INTO captions VALUES (null, (?))", caption, function (err) {
-      if (err !== null) {
+      if (err) {
         console.log(err);
         return;
       }
@@ -143,7 +145,7 @@ function updateFile(path, tagnames, caption) {
       captionid = this.lastID;
       for (var i = tagnames.length - 1; i >= 0; i--) {
         db.get("SELECT tagid FROM tagnames WHERE name LIKE (?)", tagnames[i], function (err, row) {
-          if (err !== null) {
+          if (err) {
             console.log(err);
             return;
           }
@@ -154,7 +156,7 @@ function updateFile(path, tagnames, caption) {
             $pos: null,
             $captionid: captionid
           }, function (err) {
-            if (err !== null) {
+            if (err) {
             console.log(err);
             return;
             }
