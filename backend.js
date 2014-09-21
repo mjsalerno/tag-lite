@@ -87,11 +87,13 @@ function setupIPC(io) {
         var files = arg.files;
         var tags  = arg.tagnames;
         var json = {};
+        var f = [];
         var rtn = false;
 
         for(var i in files) {
             if(fileOK(files[i], config.extentions)) {
                 db.addFile(files[i]);
+                f.push(files[i]);
             } else {
                 console.log("File does not exist: " + files[i]);
             }
@@ -101,7 +103,7 @@ function setupIPC(io) {
             }
         }
 
-        json.success = rtn;
+        json.files = f;
         event.sender.send('add-files', arg);
         console.log("hi");
     });
