@@ -46,7 +46,7 @@ function setupIPC(io) {
     // });
 
     io.on('search', function(event, arg) {
-        console.log('arg: ' + arg);
+        console.log(arg.tagnames);
     });
 
     io.on('add-dirs', function(event, arg) {

@@ -23,105 +23,33 @@
 	        </div>
 	        <div class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="#">Dashboard</a></li>
-	            <li><a href="#">Settings</a></li>
-	            <li><a href="#">Help</a></li>
+	            <li><a id="dash" href="#">Dashboard</a></li>
+	            <li><a id="help" href="#">Help</a></li>
 	          </ul>
 	          <form class="navbar-form navbar-right">
-	            <input type="text" class="form-control" placeholder="Search...">
+	            <input type="text" class="form-control" placeholder="Search..." id="search">
 	          </form>
 	        </div>
 	      </div>
 	    </div>
 
 	    <div class="container-fluid">
-	      <div class="row">
-	        <div class="col-sm-3 col-md-2 sidebar">
-	          <ul class="nav nav-sidebar">
-	            <li class="active"><a href="#">Overview</a></li>
-	            <li><a id="trackfiles" href="#">Track files</a></li>
-	          </ul>
-	          <ul class="nav nav-sidebar">
-	          	<li><a href="#">Collection1</a></li>
-	          	<li>
-	          		<ul>
-		          		<li><a href="#">subdir1</a></li>
-		          		<li><a href="#">subdir2</a></li>
-		          	</ul>
-	          	</li>
-	          </ul>
-	          <ul class="nav nav-sidebar">
-	            <li><a href="#">Collection2</a></li>
-	          </ul>
-	          <ul class="nav nav-sidebar">
-	            <li><a href="#">Collection3</a></li>
-	          </ul>
-	        </div>
-	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	          <h1 class="page-header">Dashboard</h1>
-	          <!-- Row 1 -->
-	          <div class="row placeholders" id="images">
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	            	<a href="img/1-2014-09-17.jpg" data-lightbox="wics stonybrook">
-	            		<img src="img/1-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	            	</a>
-	              	<h4>wics stonybrook</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <a href="img/2-2014-09-17.jpg" data-lightbox="wics stonybrook">
-	            		<img src="img/2-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	            	</a>
-	               <h4>wics stonybrook</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <img src="img/3-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	               <h4>Sherry Shane</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <img src="img/4-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	               <h4>Sherry Shane</h4>
-	            </div>
-	          </div>
-	          <!-- Row 2 -->
-	          <div class="row placeholders" id="images">
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	              <img src="img/5-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	              <h4>Sherry Shane</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <img src="img/6-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	               <h4>Sherry Shane</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <img src="img/7-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	               <h4>Sherry Shane</h4>
-	            </div>
-	            <div class="col-xs-6 col-sm-3 placeholder">
-	               <img src="img/8-2014-09-17.jpg" alt="image" style="width:100px; height:100px;"/>
-	               <h4>Sherry Shane Paul</h4>
-	            </div>
-	          </div>
-
-	          	 <h1 class="sub-header">Test Buttons</h1>
-				<div class="btn-toolbar" role="toolbar">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-lg" id="search">search</button>
-						<button type="button" class="btn btn-default btn-lg" id="adddirs">add directories</button>
-						<button type="button" class="btn btn-default btn-lg" id="untrackdirs">untrack directories</button>
-						<button type="button" class="btn btn-default btn-lg" id="untrackfiles">untrack files</button>
-						<button type="button" class="btn btn-default btn-lg" id="updatefile">update file</button>
-						<button type="button" class="btn btn-default btn-lg" id="addfiles">add files</button>
-						<button type="button" class="btn btn-default btn-lg" id="addtags">add tag names</button>
-						<button type="button" class="btn btn-default btn-lg" id="edittagname">edit tag name</button>
-						<button type="button" class="btn btn-default btn-lg" id="deletetags">delete tag names</button>
-					</div>
+			<div class="row">
+		    	<div class="col-sm-3 col-md-2 sidebar">
+		      		<ul class="nav nav-sidebar">
+		        		<li class="active"><a id="overview" href="#">Overview</a></li>
+	        			<li><a id="trackfiles" href="#">Track files</a></li>
+	        			<li><a id="trackdirs" href="#">Track directories</a></li>
+		        		<li><a id="tagmanagement" href="#">Tag management</a></li>
+		      		</ul>
+		      		<hr />
+		    	</div>
+		    	<div id="content">
+			    	<!-- dynamiclly load content here -->
+			    	<img src="loading.gif" alt="loading" />
 				</div>
-				<br><br>
-				<textarea id="input" rows="4" cols="50">text in here yo</textarea>
-	        </div>
-	      </div>
-	    </div>
-
+	 		</div>
+		</div>
 	    <!-- hack for atom-shell -->
 	    <script>
 	    	window.$ = window.jQuery = require("./js/jquery-1.11.0.min.js");
@@ -132,6 +60,8 @@
     	<script src="js/bootstrap.min.js"></script>
     	<!-- Lightbox -->
     	<script src="js/lightbox.min.js"></script>
+    	<!-- Right click context menus -->
+    	<script src="js/context.js"></script>
 	    <!-- Client JS -->
     	<script type="text/javascript" src="js/client.js"></script>
 	</body>

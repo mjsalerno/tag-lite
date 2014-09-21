@@ -6,13 +6,13 @@ var ipc = require('ipc');
 // Get the home directory
 var home = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
-$("#trackfiles").click(function() {
-	// open the file dialoug to track files
-	dialog.showOpenDialog(browserWindow, {defaultPath: home, properties: [ 'openDirectory', 'openFile', 'multiSelections' ]} , function(selectedPath) {
-  		if(selectedPath) {
-  			console.log(selectedPath);
-  		}
-	});
+/* right click menus */
+context.init({
+	fadeSpeed: 100,
+	filter: function($obj){},
+	above: 'auto',
+	preventDoubleContext: true,
+	compress: true
 });
 
 /* All calls made to server are contained in this object */
@@ -57,13 +57,14 @@ function Calls() {
 	};
 }
 
+function setActive(template, makeActive) {
+	$("#content").empty().load(template);
+	$("li").removeClass("active");
+	$(makeActive).parent().addClass("active");
+}
+
 /* Construct an instance of the object */
 var api = new Calls();
-
-$("#search").click(function() {
-	var tags = $("#input").val().split(' ');
-	api.search(tags);
-});
 
 $("#adddirs").click(function() {
 	var dirs = $("#input").val().split(' ');
@@ -104,3 +105,75 @@ $("#deletetag").click(function() {
 	var tags = $("#input").val().split(' ');
 	api.delete_tag_names(tags);
 });
+
+$("#trackfiles").click(function() {
+	// open the file dialoug to track files
+	dialog.showOpenDialog(browserWindow, {title: "Select one or more files.", defaultPath: home, properties: ['openFile', 'multiSelections'], filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]} , function(selectedPath) {
+  		if(selectedPath) {
+  			setActive("templates/overview.html", "#overview");
+  			// Remove all the current images
+  			$("#images").empty().append("<img src='img/loading.gif' alt='loading' />");
+  			// Add files to the page
+  			for(var i in selectedPath) {
+  				var path = selectedPath[i];
+  				var anc = $("<a>").attr("href", path).attr("data-lightbox", "none").attr("class", "class='col-xs-6 col-sm-2 placeholder'");
+  				var img = $("<img src='" + path + "' style='width: 100px; height:100px;'/>");
+  				anc.append(img);
+  				// Add image to the page
+  				$("#images").append(anc);
+  			}
+  			// Add files on server side
+  			api.add_files(selectedPath, []);
+  		}
+	});
+});
+
+$("#trackdirs").click(function() {
+	// open the file dialoug to track files
+	dialog.showOpenDialog(browserWindow, {title: "Select one or more directories.", defaultPath: home, properties: ['openDirectory', 'multiSelections']} , function(selectedPath) {
+  		if(selectedPath) {
+  			setActive("templates/overview.html", "#overview");
+  			// Remove all the current images
+  			$("#images").empty().append("<img src='img/loading.gif' alt='loading' />");
+  			api.add_files(selectedPath, []);
+  		}
+	});
+});
+
+$('#search').keydown(function(event) {
+    if (event.keyCode == 13) {
+    	setActive("templates/overview.html", "#overview");
+    	var tags = $("#search").val().split(' ');
+    	// Clear out currently loaded images
+    	$("#images").empty().append("<img src='img/loading.gif' alt='loading' />");
+    	// Ask to search for images
+		api.search(tags);
+		// Reset the text
+		$("#search").val("");
+        return false;
+     }
+});
+
+$("#help").click(function(){
+	$("#content").empty().load("templates/help.html");
+	$("li").removeClass("active");
+});
+
+$("#dash").click(function(){
+	setActive("templates/overview.html", "#overview");
+});
+
+$("#overview").click(function(){
+	setActive("templates/overview.html", "#overview");
+});
+
+$("#tagmanagement").click(function(){
+	setActive("templates/managetags.html", "#tagmanagement");
+});
+
+$(document).ready(function(){
+	$("#content").empty().load("templates/overview.html");
+});
+
+
+
